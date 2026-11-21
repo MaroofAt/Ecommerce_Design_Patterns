@@ -105,6 +105,21 @@ public class OrderContextLoggingDecorator extends OrderContextDecorator{
         }
     }
 
+    @Override
+    public int getId() {
+        LogsIO.write_to(this.logsFileName, msg("getId(): Getting Order Id"));
+        int id = super.getId();
+        LogsIO.write_to(this.logsFileName, msgln(" :id="+id));
+        return id;
+    }
+
+    @Override
+    public double getPrice() {
+        LogsIO.write_to(this.logsFileName, msg("getPrice(): Getting Order Price"));
+        double price = super.getPrice();
+        LogsIO.write_to(this.logsFileName, msgln(" :price="+price));
+        return price;
+    }
 
     // tools
     private String msg(String message){

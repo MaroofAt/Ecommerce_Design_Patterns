@@ -53,4 +53,19 @@ public class OrderContextDecorator extends OrderContext {
     public void cancel() throws OrderStateException {
         wrappee.cancel();
     }
+
+    @Override
+    public int getId() {
+        return wrappee.getId();
+    }
+
+    @Override
+    public double getPrice() {
+        return wrappee.getPrice();
+    }
+
+    @Override
+    public String toString() {
+        return wrappee.toString();
+    }
 }
