@@ -1,0 +1,5 @@
+[22:10:22.226015200]:				constructor(): Order Context Created
+[22:10:49.352336600]:				getState(): Getting Order State
+[22:11:14.968082700]:				pay(): Paying Order[22:11:14.970083500]:				 :Succeed
+[22:11:17.959071600]:				getState(): Getting Order State
+[22:11:21.449288]:				getState(): Getting Order State

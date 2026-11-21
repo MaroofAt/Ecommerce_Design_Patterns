@@ -5,8 +5,11 @@ import core.inventory.InventoryService;
 import core.notification.NotificationService;
 import core.orders.OrderContext;
 import core.orders.OrderStateException;
+import core.orders.decorators.OrderContextCachingDecorator;
 import core.orders.decorators.OrderContextLoggingDecorator;
 import core.orders.payment.*;
+
+import java.util.ArrayList;
 
 public class FullFacade {
     protected OrderContext order = null;
@@ -14,7 +17,9 @@ public class FullFacade {
     public void placeOrder(int paymentMethod, double orderPrice){
         setPaymentMethod(paymentMethod);
         this.order = new OrderContextLoggingDecorator(
-                        new OrderContext(this.paymentStrategy, orderPrice)
+                        new OrderContextCachingDecorator(
+                                new OrderContext(this.paymentStrategy, orderPrice)
+                        )
                     );
     }
     public void checkInventory(){
@@ -52,6 +57,31 @@ public class FullFacade {
         if(this.order == null) throw new FacadeException("Order still not initialized! : Create Order Before getting its State!");
         return this.order.getState().getClass().getSimpleName();
     }
+
+    public int getOrderId(){
+        if(this.order == null) return -1;
+        return this.order.getId();
+    }
+    public void ReplaceOrder(int id){
+        OrderContext temp = OrderContext.getOrderById(id);
+        if(temp == null) return;
+        this.order = new OrderContextLoggingDecorator(
+                new OrderContextCachingDecorator(temp)
+        );
+    }
+    public String getOrderAsString(){
+        if(this.order == null) return null;
+        return this.order.toString();
+    }
+    public static String getOrderAsStringById(int id){
+        OrderContext temp = OrderContext.getOrderById(id);
+        if(temp == null) return null;
+        return temp.toString();
+    }
+    public static ArrayList<OrderContext> getAllOrdersInDB(){
+        return OrderContext.getAllOrdersInDB();
+    }
+
 
     // tools
     public String[] getPaymentMethods(){

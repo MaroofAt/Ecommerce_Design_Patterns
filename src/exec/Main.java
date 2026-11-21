@@ -56,6 +56,7 @@ public class Main {
                     double orderPrice = scan_double.nextDouble();
                     facade.placeOrder(payment_method_choice, orderPrice);
                     System.out.println("Done::Order Created::method::"+paymentMethods[payment_method_choice]+"::price::"+orderPrice);
+                    System.out.println(facade.getOrderAsString());
                     break;
                 case 2:
                     int payment_method_choice2 = 9999999;

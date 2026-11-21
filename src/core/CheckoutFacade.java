@@ -5,6 +5,7 @@ import core.inventory.InventoryService;
 import core.notification.NotificationService;
 import core.orders.OrderContext;
 import core.orders.OrderStateException;
+import core.orders.decorators.OrderContextCachingDecorator;
 import core.orders.decorators.OrderContextLoggingDecorator;
 import core.orders.payment.*;
 
@@ -22,7 +23,9 @@ public class CheckoutFacade{
             System.out.println("Order Price = " + orderPrice);
             System.out.println("----");
             order = new OrderContextLoggingDecorator(
-                        new OrderContext(paymentStrategy, orderPrice)
+                        new OrderContextCachingDecorator(
+                                new OrderContext(paymentStrategy, orderPrice)
+                        )
                     );
             System.out.println("- Order Initialized -");
             System.out.println("Order State: " + order.getState().getClass().getSimpleName());
